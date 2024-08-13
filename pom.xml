@@ -4,13 +4,45 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.codenox</groupId>
+	<groupId>io.github.codenox-vs</groupId>
 	<artifactId>ews-services-schema-2006-JAKARTA</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
 
-	<name>Microsoft Schemas for Exchange Services 2006</name>
+	<name>Microsoft Schemas for Exchange Services 2006 with JAKARTA</name>
+	<description>Microsoft Schemas for Exchange Services 2006</description>
+	<url>https://github.com/codenox-vs/ews-services-core-bc-composite-svc</url>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/license/mit</url>
+		</license>
+	</licenses>
+
+
+	<scm>
+		<connection>
+			scm:git:git://github.com/codenox-vs/ews-services-core-bc-composite-svc.git</connection>
+		<developerConnection>
+			scm:git:ssh://github.com:codenox-vs/ews-services-core-bc-composite-svc.git</developerConnection>
+		<url>
+			https://github.com/codenox-vs/ews-services-core-bc-composite-svc/tree/master</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>Sebastian Frömel</name>
+			<email>sfmail@gmx.li</email>
+			<organization>codenox</organization>
+			<organizationUrl>https://github.com/codenox-vs</organizationUrl>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
@@ -18,12 +50,31 @@
 			<artifactId>jakarta.xml.bind-api</artifactId>
 			<version>4.0.2</version>
 		</dependency>
-
 	</dependencies>
+
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
-
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.5.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>org.sonatype.central</publishingServerId>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -41,14 +92,27 @@
 				<version>3.2.0</version>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.8.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -56,9 +120,21 @@
 				</executions>
 			</plugin>
 
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>3.2.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
